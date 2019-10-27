@@ -1,0 +1,54 @@
+	<script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
+
+<div id="container">
+
+	<div style="width:100%;">
+		<!-- <h1>Accession</h1> -->
+    <div style="font-size:26pt; margin-bottom: 15px">Accession is a collecting booth for an imaginary museum regulated entirely by AI. Visitors submit everyday items to the booth where they are photographed and subjected to a number of AI processes which describe and classify the objects submitted. Through the exhibition the digital collection grows but as it does so the AI management becomes more and more selective about what is and is not accepted, rejecting new items that are a poor fit for what is already there. </div>
+	</div>
+<!-- 	<ngx-masonry>
+       <div ngxMasonryItem class="masonry-item" *ngFor="let item of accessionObjects.objects.slice().reverse()">
+        {{item.title}}
+      </div>
+  </ngx-masonry> -->
+<!-- [useImagesLoaded]="true" [options]="{ transitionDuration: '0.8s' }" -->
+<masonry [options]="{ transitionDuration: '0.8s', originTop:'false' ,initLayout:'true'}" [useImagesLoaded]="true">
+	<!-- slice().reverse() -->
+<masonry-brick  class="masonry-item"  *ngFor="let accessionObject of accessionObjects.objects.slice().reverse()">
+  	<div class="item stay_inline">
+  		<img class="item_image"  src="assets/images/{{accessionObject.imageSrcFront2}}"/>
+  		<div class="thumb_strip_container">
+  			<div class="thumb_image_box stay_inline"> <img class="thumb_image" src="assets/images/{{accessionObject.imageSrcFront1}}"/> </div>
+  			<div class="thumb_image_box stay_inline"> <img class="thumb_image" src="assets/images/{{accessionObject.imageSrcFront0}}"/> </div>
+  			<div class="thumb_image_box stay_inline"> <img class="thumb_image" src="assets/images/{{accessionObject.imageSrcFront3}}"/> </div>
+  			<div class="thumb_image_box stay_inline"> <img class="thumb_image" src="assets/images/{{accessionObject.imageSrcTop0}}"/> </div>
+  		</div>
+
+  		<div class="stay_inline colour_box_container" *ngFor="let colour of accessionObject.colours" >
+  			<div class="stay_inline colour_box"  [ngStyle]="{'background-color': colour.hex}">
+
+  			</div>
+  			<br>
+  			{{colour.colour_name}}
+  		</div>			
+  		<div class="item_title">{{accessionObject.title}}</div>
+  		<span class="item_label"> Relevance: </span>{{accessionObject.similarity}}<br>
+  		<span class="item_label"> Series: </span>{{getTopCategory(accessionObject)}}<br>
+  		<span class="item_label"> Accession time:</span> {{unixToFormatedDateTime(accessionObject.accession_time)}}<br>
+  		<!-- <span class="item_label">Dimensions: width:</span> {{accessionObject.dimensions.width}},height:{{accessionObject.dimensions.height}},length:{{accessionObject.dimensions.length}}<br> -->
+
+  		<span class="item_label">Description: </span> This may be a <span *ngFor="let tag of accessionObject.AI_keys">
+  			{{tag.class }},
+  		</span>
+  		<br>
+
+  	<!-- </div> -->
+  </div>
+
+</masonry-brick>
+</masonry>
+<!-- <input [(ngModel)]="message" (keyup)="$event.keyCode == 13 && sendMessage()" />
+	<button (click)="sendMessage()">Send</button> -->
+
+	<!-- {{config[0].image1url}} {{config[0].title}} -->
+

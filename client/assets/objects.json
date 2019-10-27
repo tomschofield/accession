@@ -1,0 +1,136 @@
+{
+    "objects": [ {
+        "imageSrcFront0": "1572022023_front_0.jpg",
+        "imageSrcFront1": "1572022023_front_1.jpg",
+        "imageSrcFront2": "1572022023_front_2.jpg",
+        "imageSrcFront3": "1572022023_front_3.jpg",
+        "imageSrcTop0": "1572022023_top_0.jpg",
+        "dimensions": {
+            "width": 1,
+            "length": 1,
+            "height": 1
+        },
+        "AI_keys": [{
+            "class": "LP",
+            "score": 0.639,
+            "type_hierarchy": "/memory device/LP"
+        }, {
+            "class": "memory device",
+            "score": 0.858
+        }, {
+            "class": "optical disk",
+            "score": 0.629,
+            "type_hierarchy": "/memory device/optical disk"
+        }, {
+            "class": "compact disk",
+            "score": 0.548,
+            "type_hierarchy": "/memory device/compact disk"
+        }, {
+            "class": "X-ray film",
+            "score": 0.505,
+            "type_hierarchy": "/photographic equipment/photographic film/X-ray film"
+        }, {
+            "class": "photographic film",
+            "score": 0.513
+        }, {
+            "class": "photographic equipment",
+            "score": 0.513
+        }, {
+            "class": "audio CD",
+            "score": 0.5,
+            "type_hierarchy": "/memory device/audio CD"
+        }, {
+            "class": "recording",
+            "score": 0.801
+        }, {
+            "class": "figure",
+            "score": 0.795
+        }, {
+            "class": "emerald color",
+            "score": 0.664
+        }, {
+            "class": "indigo color",
+            "score": 0.625
+        }],
+        "colours": [{
+            "colour_name": "emerald",
+            "hex": "#028f1e"
+        }, {
+            "colour_name": "indigo",
+            "hex": "#4b0082"
+        }],
+        "accession_time": "1572022023",
+        "categories": ["/memory device/LP", "/memory device/optical disk", "/memory device/compact disk", "/photographic equipment/photographic film/X-ray film", "/memory device/audio CD"],
+        "title": "memory device",
+        "similarity": "0.8491334"
+    }, {
+        "imageSrcFront0": "1572022471_front_0.jpg",
+        "imageSrcFront1": "1572022471_front_1.jpg",
+        "imageSrcFront2": "1572022471_front_2.jpg",
+        "imageSrcFront3": "1572022471_front_3.jpg",
+        "imageSrcTop0": "1572022471_top_0.jpg",
+        "dimensions": {
+            "width": 1,
+            "length": 1,
+            "height": 1
+        },
+        "AI_keys": [{
+            "class": "water cooler",
+            "score": 0.664
+        }, {
+            "class": "inhaler",
+            "score": 0.641,
+            "type_hierarchy": "/dispenser/inhaler"
+        }, {
+            "class": "dispenser",
+            "score": 0.647
+        }, {
+            "class": "potion",
+            "score": 0.547,
+            "type_hierarchy": "/food/beverage/potion"
+        }, {
+            "class": "beverage",
+            "score": 0.548
+        }, {
+            "class": "food",
+            "score": 0.548
+        }, {
+            "class": "water bottle",
+            "score": 0.511,
+            "type_hierarchy": "/bottle/water bottle"
+        }, {
+            "class": "bottle",
+            "score": 0.517
+        }, {
+            "class": "skin toner",
+            "score": 0.5,
+            "type_hierarchy": "/toiletry/lotion/skin toner"
+        }, {
+            "class": "lotion",
+            "score": 0.51
+        }, {
+            "class": "toiletry",
+            "score": 0.514
+        }, {
+            "class": "clothing",
+            "score": 0.595
+        }, {
+            "class": "blue color",
+            "score": 0.976
+        }, {
+            "class": "ultramarine color",
+            "score": 0.764
+        }],
+        "colours": [{
+            "colour_name": "blue",
+            "hex": "#0000ff"
+        }, {
+            "colour_name": "ultramarine",
+            "hex": "#1805db"
+        }],
+        "accession_time": "1572022471",
+        "categories": ["/dispenser/inhaler", "/food/beverage/potion", "/bottle/water bottle", "/toiletry/lotion/skin toner"],
+        "title": "water cooler",
+        "similarity": "0.6210532"
+    }]
+}
