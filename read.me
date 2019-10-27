@@ -4,6 +4,7 @@ Museum collections and AI classifiers rely on maintaining some form of status qu
 
 Installation
 A spec-file.txt is included which can be used for creating a conda environment which ought to look after most of the project's dependencies. 
+You'll need to install angular io cli and thus node, npm 
 
 Running
 There are 4 parts to accession: 
@@ -15,3 +16,22 @@ There are 4 parts to accession:
 3. a websocket server in node js socketi0 and express. This is taken direcxtly from https://github.com/Ibro/rxjs-chat 
 
 4. a webclient in angulario. This is adapted from https://github.com/Ibro/rxjs-chat 
+
+so, to run first set the server going by calling
+
+cd ./server
+node index.js
+
+THEN, run the client by 
+
+cd ./client
+
+and either
+
+ng serve --open
+or 
+ng build 
+
+(if you build it you'll need to run the 'dist' folder from a webserver)
+
+Then run the python script (accession.py) and cross your fingers 
