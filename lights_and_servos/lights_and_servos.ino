@@ -55,7 +55,7 @@ void loop() {
 
   //
   if (stringComplete) {
-
+    
     // clear the string:
     inputString = "";
     stringComplete = false;
@@ -130,6 +130,7 @@ void serialEvent() {
     // do something about it:
     if (inChar == '\n') {
       stringComplete = true;
+      
     }
   }
 }

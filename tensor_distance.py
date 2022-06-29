@@ -9,10 +9,12 @@ import re
 
 import json
 
+print("loading module_url")
 module_url = "https://tfhub.dev/google/universal-sentence-encoder-large/3" #@param ["https://tfhub.dev/google/universal-sentence-encoder/2", "https://tfhub.dev/google/universal-sentence-encoder-large/3"]
 
-
-embed = hub.Module(module_url)
+#embed = hub.Module(module_url)
+embed = hub.load(module_url)
+print("loaded module_url")
 
 def get_features(texts):
     if type(texts) is str:

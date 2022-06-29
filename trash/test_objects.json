@@ -1,0 +1,108 @@
+[{
+    "imageSrcTop0": "1655201466_top_0.jpg",
+    "imageSrcFront0": "1655201466_front_0.jpg",
+    "imageSrcFront1": "1655201466_front_1.jpg",
+    "imageSrcFront2": "1655201466_front_2.jpg",
+    "imageSrcFront3": "1655201466_front_3.jpg",
+    "title": "QR Code",
+    "accession_time": "1655219447",
+    "dimensions":
+    {
+        "width": 1,
+        "length": 1,
+        "height": 1
+    },
+    "categories":
+    [],
+    "colours":
+    [
+        "#9e9d99",
+        "#fefefe",
+        "#0d1426",
+        "#273272",
+        "#b9cbfd",
+        "#ad3855",
+        "#7c5371"
+    ],
+    "AI_keys":
+    [
+        {
+            "class": "QR Code",
+            "score": 90.609375
+        },
+        {
+            "class": "Monitor",
+            "score": 86.00706481933594
+        },
+        {
+            "class": "Electronics",
+            "score": 86.00706481933594
+        },
+        {
+            "class": "Screen",
+            "score": 86.00706481933594
+        },
+        {
+            "class": "Display",
+            "score": 86.00706481933594
+        },
+        {
+            "class": "Chair",
+            "score": 83.09062194824219
+        },
+        {
+            "class": "Furniture",
+            "score": 83.09062194824219
+        }
+    ]
+},
+{
+    "imageSrcTop0": "1655201466_top_0.jpg",
+    "imageSrcFront0": "1655201466_front_0.jpg",
+    "imageSrcFront1": "1655201466_front_1.jpg",
+    "imageSrcFront2": "1655201466_front_2.jpg",
+    "imageSrcFront3": "1655201466_front_3.jpg",
+    "title": "Adapter",
+    "accession_time": "1655220431",
+    "dimensions":
+    {
+        "width": 1,
+        "length": 1,
+        "height": 1
+    },
+    "categories":
+    [],
+    "colours":
+    [
+        "#b9cfe7",
+        "#162230",
+        "#817c79"
+    ],
+    "AI_keys":
+    [
+        {
+            "class": "Adapter",
+            "score": 92.77816009521484
+        },
+        {
+            "class": "Monitor",
+            "score": 84.33790588378906
+        },
+        {
+            "class": "Electronics",
+            "score": 84.33790588378906
+        },
+        {
+            "class": "Screen",
+            "score": 84.33790588378906
+        },
+        {
+            "class": "Display",
+            "score": 84.33790588378906
+        }
+    ]
+}
+
+
+
+]

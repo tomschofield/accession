@@ -1,0 +1,106 @@
+[
+    [
+        {
+            "Name": "Clothing",
+            "Confidence": 99.21591186523438,
+            "Instances":
+            [],
+            "Parents":
+            []
+        },
+        {
+            "Name": "Apparel",
+            "Confidence": 99.21591186523438,
+            "Instances":
+            [],
+            "Parents":
+            []
+        },
+        {
+            "Name": "Scarf",
+            "Confidence": 69.44546508789062,
+            "Instances":
+            [],
+            "Parents":
+            [
+                {
+                    "Name": "Clothing"
+                }
+            ]
+        }
+    ],
+    [
+        {
+            "Name": "Weapon",
+            "Confidence": 99.20393371582031,
+            "Instances":
+            [],
+            "Parents":
+            []
+        },
+        {
+            "Name": "Weaponry",
+            "Confidence": 99.20393371582031,
+            "Instances":
+            [],
+            "Parents":
+            []
+        },
+        {
+            "Name": "Blade",
+            "Confidence": 98.81080627441406,
+            "Instances":
+            [],
+            "Parents":
+            [
+                {
+                    "Name": "Weapon"
+                }
+            ]
+        },
+        {
+            "Name": "Scissors",
+            "Confidence": 97.21556854248047,
+            "Instances":
+            [
+                {
+                    "BoundingBox":
+                    {
+                        "Width": 0.5980647206306458,
+                        "Height": 0.9238061308860779,
+                        "Left": 0.26975348591804504,
+                        "Top": 0.0382579006254673
+                    },
+                    "Confidence": 95.68683624267578
+                }
+            ],
+            "Parents":
+            [
+                {
+                    "Name": "Blade"
+                },
+                {
+                    "Name": "Weapon"
+                }
+            ]
+        },
+        {
+            "Name": "Shears",
+            "Confidence": 88.03572082519531,
+            "Instances":
+            [],
+            "Parents":
+            [
+                {
+                    "Name": "Scissors"
+                },
+                {
+                    "Name": "Blade"
+                },
+                {
+                    "Name": "Weapon"
+                }
+            ]
+        }
+    ]
+]

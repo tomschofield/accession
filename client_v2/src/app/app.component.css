@@ -1,0 +1,96 @@
+h1,
+html {
+    /* font-family: 'Fjalla One', sans-serif; */
+    font-family: "Titillium Web", sans-serif;
+    /* padding-left: 2%; */
+}
+
+.grid-item {
+    /* width: 10%; */
+}
+
+#intro_text {
+    font-size: 2vw;
+    margin-bottom: 2%;
+    font-family: "Titillium Web", sans-serif;
+}
+
+.colour_box {
+    height: 50px;
+    width: 50px;
+    margin: 20px;
+    margin-bottom: 10px;
+    border: 2px solid;
+    background-color: lightGray;
+}
+
+.thumb_strip_container {
+    width: 100%;
+    /* height: 50px; */
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
+
+.thumb_image_box {
+    width: 25%;
+    background-color: lightGray;
+    cursor: pointer;
+}
+
+.thumb_image {
+    width: 100%;
+    background-color: lightGray;
+}
+
+.colour_box_container {
+    background-color: lightGray;
+    margin-bottom: 20px;
+}
+
+.item_label {
+    color: deepPink;
+}
+
+.item_title {
+    background-color: lightGray;
+    font-size: 22pt;
+}
+
+.stay_inline {
+    margin: 0px, auto;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.item_box {
+    padding: 1%;
+    background-color: lightgray;
+    margin-bottom: 2%;
+    font-size: 1.5vw;
+    /* Staatliches; */
+    font-family: "Titillium Web", sans-serif;
+}
+
+.item_image {
+    width: 100%;
+}
+
+#masonry_container {
+    /* border: 10px solid; */
+    /* border-color: green; */
+    width: 100%;
+}
+
+#container {
+    /*background-color: lightGrey;*/
+    width: 95%;
+    height: 100%;
+    margin: 0 auto;
+    margin-top: 1%;
+    /*text-align: center;*/
+    border-top: 2px solid;
+    border-bottom: 3px solid;
+    /*padding-bottom: 2000px;*/
+    padding-top: 2%;
+    position: relative;
+}
