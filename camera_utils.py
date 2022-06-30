@@ -97,8 +97,8 @@ def focus_cams_to_detect():
     os.system(set_focus_to_qr_code_on_front_cam)
 
 def focus_cams_to_object():
-    print("focusing cams to object on top ",top_uvc_cam_index)
-    print("focusing cams to object on front",front_uvc_cam_index)
+    # print("focusing cams to object on top ",top_uvc_cam_index)
+    # print("focusing cams to object on front",front_uvc_cam_index)
     set_focus_to_object_on_top_cam = "./uvc-util --select-by-index="+str(top_uvc_cam_index)+" --set=focus-abs=35"
     # set_focus_to_low_object_on_top_cam = "./uvc-util --select-by-index="+str(top_uvc_cam_index)+" --set=focus-abs=20"
 
@@ -111,8 +111,8 @@ def focus_cams_to_object():
     #     os.system(set_focus_to_low_object_on_front_cam)
 
 def focus_cams_to_low_object():
-    print("focusing cams to object on top ",top_uvc_cam_index)
-    print("focusing cams to object on front",front_uvc_cam_index)
+    # print("focusing cams to object on top ",top_uvc_cam_index)
+    # print("focusing cams to object on front",front_uvc_cam_index)
     set_focus_to_object_on_top_cam = "./uvc-util --select-by-index="+str(top_uvc_cam_index)+" --set=focus-abs=35"
     set_focus_to_low_object_on_top_cam = "./uvc-util --select-by-index="+str(top_uvc_cam_index)+" --set=focus-abs=20"
 
@@ -125,7 +125,7 @@ def focus_cams_to_low_object():
     #     os.system(set_focus_to_low_object_on_front_cam)
 
 def get_top_cam_index():
-    print("To do")
+    # print("To do")
     cam = cv2.VideoCapture(top_cam_index)
     
     top_cam.set(3,640)
@@ -197,22 +197,29 @@ def setup_cams():
 
     objects_on_plate_buffer = []
     buffer_index = 0
+    top_uvc_cam_index = 0
+    front_uvc_cam_index = 1
+    init_camera_focus()
+
     top_cam_index = get_cam_index_for("accession")
-    
+    init_camera_focus()
     front_cam_index =get_cam_index_for("back_plate")
     print(top_cam_index,"top_cam_index")
     print(front_cam_index,"front_cam_index")
 
-    top_uvc_cam_index = 0
-    front_uvc_cam_index = 1
-
-    top_uvc_cam_index = top_cam_index
-    front_uvc_cam_index = front_cam_index
+    
+    init_camera_focus()
+    front_uvc_cam_index= get_uvc_index_for(front_uvc_cam_index, "back_plate")
+    init_camera_focus()
+    top_uvc_cam_index = get_uvc_index_for(top_cam_index, "accession")
+    print("top_uvc_cam_index",top_uvc_cam_index)
+    print("front_uvc_cam_index",front_uvc_cam_index)
+    init_camera_focus()
 
     top_cam = cv2.VideoCapture(top_cam_index)
     front_cam = cv2.VideoCapture(front_cam_index)
 
-    init_camera_focus()
+    
     
     top_cam.set(3,640)
     top_cam.set(4,480)
@@ -222,7 +229,58 @@ def setup_cams():
 
     focus_cams_to_detect()
 
+def get_uvc_index_for(cam_index, qr_code):
+    tempCap = cv2.VideoCapture(cam_index)
+    tempCap.set(3,640)
+    tempCap.set(4,480)
+    x = 0
+    max_cam_indices = 2
+    
 
+    while x < max_cam_indices:
+        print(Fore.GREEN+" turnong off autofocus on ",x)
+        os.system("./uvc-util --select-by-index="+str(x)+" --set=auto-focus=0")
+
+        has_expected_qr = False
+        has_qr_on_long_focus = False
+        print(Fore.GREEN+" Focusing camera to QR code on index ",x)
+        #focus to QR 
+        set_focus_to_qr_code_on_top_cam = "./uvc-util --select-by-index="+str(x)+" --set=focus-abs=20"
+        os.system(set_focus_to_qr_code_on_top_cam)
+        time.sleep(1)
+        #is there a QR?
+        _, frame = tempCap.read()
+        decodedObjects = pyzbar.decode(frame)
+        if len(decodedObjects)>0:
+            for obj in decodedObjects:
+                # print("obj.data",x,obj.data.decode("utf-8"))
+                if obj.data.decode("utf-8")  == qr_code:
+                    print("found QR code on ", x)
+                    has_expected_qr = True
+        #focus very short 
+        time.sleep(1)
+        print("Focusing camera to infinity  on index ",x)
+        set_focus_to_infinite = "./uvc-util --select-by-index="+str(x)+" --set=focus-abs=2000"
+        os.system(set_focus_to_infinite)
+        #is there a QR?
+        time.sleep(1)
+        _, frame = tempCap.read()
+        decodedObjects = pyzbar.decode(frame)
+        if len(decodedObjects)>0:
+            for obj in decodedObjects:
+                # print("obj.data",x,obj.data.decode("utf-8"))
+                if obj.data.decode("utf-8")  == qr_code:
+                    print("found qr code while long focusing on ", x)
+                    has_qr_on_long_focus = True
+        
+        time.sleep(1)
+        
+        if(has_expected_qr and has_qr_on_long_focus==False):
+            print("found uvc index",x)
+            return x
+        
+        x+=1
+    # tempCap.release()
 
 def get_cam_index_for(qr_code):
     # print("looking for cam showing",qr_code)

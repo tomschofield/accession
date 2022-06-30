@@ -82,7 +82,7 @@ def get_hex_palette(image_path):
   hex_colors = []
   for color in colors:
     hex_colors.append('#%02x%02x%02x' % color[0])
-  print(hex_colors)
+  # print(hex_colors)
   return hex_colors
   #uncomment to get a saved image
   # color_palette = render_color_platte(colors)

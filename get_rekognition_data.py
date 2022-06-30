@@ -130,8 +130,8 @@ def get_image_crop(fname,x,y,w,h):
     img = cv2.imread(fname)
     
     height, width, channels = img.shape
-    print("height",height)
-    print("width",width)
+    # print("height",height)
+    # print("width",width)
     crop_img = img[int(y*height):int(y+(y*height)+(h*height)), int(x*width):int((x*width)+(w*width))]
     cv2.imwrite("cropped.png", crop_img)
     return crop_img
@@ -160,48 +160,56 @@ def all_data_from_image_formatted(image_dir, fname_base, back_code_occluded):
     rekognition_client = boto3.client('rekognition')
     fname =""
     if(back_code_occluded):
-        fname = image_dir+fname_base+"_top_0.jpg"
-    else:
         fname = image_dir+fname_base+"_front_0.jpg"
+    else:
+        fname = image_dir+fname_base+"_top_0.jpg"
 
     r_image = RekognitionImage.from_file(fname, rekognition_client)
     all_data = r_image.detect_all_data(100)
+    # print("all_Data",all_data)
     formatted_data = {}
-    formatted_data['imageSrcTop0'] = fname_base+"_top_0.jpg"
-    formatted_data['imageSrcFront0'] = fname_base+"_front_0.jpg"
-    formatted_data['imageSrcFront1'] = fname_base+"_front_1.jpg"
-    formatted_data['imageSrcFront2'] = fname_base+"_front_2.jpg"
-    formatted_data['imageSrcFront3'] = fname_base+"_front_3.jpg"
-    formatted_data['title'] = all_data[0]['Name']
+    if(len(all_data)>0):
+        formatted_data['imageSrcTop0'] = fname_base+"_top_0.jpg"
+        formatted_data['imageSrcFront0'] = fname_base+"_front_0.jpg"
+        formatted_data['imageSrcFront1'] = fname_base+"_front_1.jpg"
+        formatted_data['imageSrcFront2'] = fname_base+"_front_2.jpg"
+        formatted_data['imageSrcFront3'] = fname_base+"_front_3.jpg"
+        formatted_data['title'] = all_data[0]['Name']
+        if(back_code_occluded):
+            formatted_data['imageSrcFocus']=formatted_data['imageSrcTop0'] = fname_base+"_front_0.jpg"
+        else:
+            formatted_data['imageSrcFocus']=formatted_data['imageSrcTop0'] = fname_base+"_top_0.jpg"
+        
+        
+        formatted_data['accession_time'] = fname_base
+        formatted_data['dimensions']= {
+            "width": 1,
+            "length": 1,
+            "height": 1
+        }
+        # print("fname","images/"+fname)
+        formatted_data['categories']=[]
+        image_crop = get_image_crop(fname, 0.2,0.2,0.6,0.6)
+        formatted_data['colours']=colour_utils.get_hex_palette("cropped.png")
+        formatted_data['AI_keys'] = []
+        for data in all_data:
+            # print (data)
+            if (data['Confidence']> 80 and data['Name']!="QR Code"):
+                obj = {
+                    "class":data['Name'],
+                    "score":data['Confidence'],
+                }
+                formatted_data['AI_keys'].append(obj)
+                if (len(data['Parents'])>0):
+                    # print("has valid parents")
+                    for parent in data['Parents']:
+                        # if (parent['Name'] in formatted_data['categories'] == False):
+                        formatted_data['categories'].append(parent['Name'])
 
-    
-    
-    formatted_data['accession_time'] = fname_base
-    formatted_data['dimensions']= {
-        "width": 1,
-        "length": 1,
-        "height": 1
-    }
-    print("fname","images/"+fname)
-    formatted_data['categories']=[]
-    image_crop = get_image_crop(fname, 0.2,0.2,0.6,0.6)
-    formatted_data['colours']=colour_utils.get_hex_palette("cropped.png")
-    formatted_data['AI_keys'] = []
-    for data in all_data:
-        # print (data)
-        if (data['Confidence']> 80 and data['Name']!="QR Code"):
-            obj = {
-                "class":data['Name'],
-                "score":data['Confidence'],
-            }
-            formatted_data['AI_keys'].append(obj)
-            if (len(data['Parents'])>0):
-                for parent in data['Parents']:
-                    if (parent['Name'] in formatted_data['categories'] == False):
-                        formatted_data['categories'].append(data['Parents']['Name'])
-
-    
-    # print(f"Found {len(all_data)} labels.")
+        
+        # print(f"Found {len(all_data)} labels.")
+    else:
+        print ("COULDN'T GET OBJECT DATA")
     return formatted_data
 
 

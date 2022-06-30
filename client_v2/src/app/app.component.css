@@ -67,6 +67,7 @@ html {
     background-color: lightgray;
     margin-bottom: 2%;
     font-size: 1.5vw;
+    overflow: scroll;
     /* Staatliches; */
     font-family: "Titillium Web", sans-serif;
 }
