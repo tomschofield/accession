@@ -18,8 +18,10 @@ html {
 .colour_box {
     height: 50px;
     width: 50px;
-    margin: 20px;
-    margin-bottom: 10px;
+    /* margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 10px; */
+    margin: 10px;
     border: 2px solid;
     background-color: lightGray;
 }

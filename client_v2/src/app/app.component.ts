@@ -3,6 +3,7 @@ import { ChatService } from './chat.service';
 import { GetObjectsService } from './get-objects.service';
 import { NgxMasonryModule } from 'ngx-masonry';
 import { NgxMasonryOptions, NgxMasonryComponent } from "ngx-masonry";
+import {NgPluralizeService} from 'ng-pluralize';
 
 @Component({
   selector: 'app-root',
@@ -36,7 +37,7 @@ export class AppComponent implements OnInit {
   imgSrc: string = "assets/images/0F8A3627.JPG";
   latestMessage: any = {};
   scroll: boolean = false;
-  constructor(private chatService: ChatService, private objectsService: GetObjectsService) {
+  constructor( private pluralizeService:NgPluralizeService , private objectsService: GetObjectsService) {
 
   }
 
@@ -44,9 +45,11 @@ export class AppComponent implements OnInit {
     //todo probably remove this function
   }
   getTopCategory(item: any) {
-
+   
     if (item.categories.length > 0) {
-      return item.categories[0];
+      console.log("singular",item.categories[0])
+      console.log("plural",this.pluralizeService.pluralize(item.categories[0]))
+      return this.pluralizeService.pluralize(item.categories[0]);
     }
     else {
       return "";
@@ -64,6 +67,19 @@ export class AppComponent implements OnInit {
 
     var classes = "";
     if (object['AI_keys'].length > 0) {
+      if (object['AI_keys'].length ==1) {
+        if (object['AI_keys'][0]['class'].length > 0) {
+          if (object['AI_keys'][0]['class'][0] == "A" || object['AI_keys'][0]['class'][0] == "I" || object['AI_keys'][0]['class'][0] == "O" || object['AI_keys'][0]['class'][0] == "U") {
+            classes += "n " +object['AI_keys'][0]['class'];
+            return classes;
+          }
+          else{
+            classes += " " +object['AI_keys'][0]['class'];
+            return classes;
+          }
+        }
+
+      }
 
       if (object['AI_keys'][0]['class'].length > 0) {
         if (object['AI_keys'][0]['class'][0] == "A" || object['AI_keys'][0]['class'][0] == "I" || object['AI_keys'][0]['class'][0] == "O" || object['AI_keys'][0]['class'][0] == "U") {
@@ -143,8 +159,8 @@ export class AppComponent implements OnInit {
   }
 
   sendMessage() {
-    this.chatService.sendMessage(this.message);
-    this.message = '';
+    // this.chatService.sendMessage(this.message);
+    // this.message = '';
   }
 
   unixToFormatedDateTime(unixTimestamp: number) {
@@ -222,14 +238,14 @@ export class AppComponent implements OnInit {
     //   , err => console.error(err), () => this.checkMessage());
 
 
-    this.chatService
-      .getMessages()
-      .subscribe(message => {
-        console.log("message", message);
-        this.latestMessage = message;
-        // this.messages.push(message);
-        this.checkMessage()
-      });
+    // this.chatService
+    //   .getMessages()
+    //   .subscribe(message => {
+    //     console.log("message", message);
+    //     this.latestMessage = message;
+    //     // this.messages.push(message);
+    //     this.checkMessage()
+    //   });
 
 
   }
