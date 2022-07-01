@@ -10,7 +10,7 @@
     <ngx-masonry id="masonry_container" [options]="masonryOptions" style="width: 90vw;" [ordered]="true" (itemsLoaded)="itemsLoaded()">
         <div ngxMasonryItem class="item_box" *ngFor="let accessionObject of accessionObjects.slice().reverse();index as idx" style="width: 30%;">
             <!-- <img [src]="image[1]" width="100%"> -->
-            <img class="item_image" src="assets/images/{{accessionObject.imageSrcFocus}}" />
+            <img class="item_image" [src]="'assets/images/'+accessionObject.imageSrcFocus" />
             <div class="thumb_strip_container" style="z-index: 100;">
                 <div class="thumb_image_box stay_inline"> <img class="thumb_image" (click)="changeImgSrcFocus(idx, accessionObject.imageSrcFront1)" src="assets/images/{{accessionObject.imageSrcFront1}}" /> </div>
                 <div class="thumb_image_box stay_inline"> <img class="thumb_image" (click)="changeImgSrcFocus(idx, accessionObject.imageSrcFront0)" src="assets/images/{{accessionObject.imageSrcFront0}}" /> </div>

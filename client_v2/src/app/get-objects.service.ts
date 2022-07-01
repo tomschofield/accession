@@ -17,7 +17,7 @@ export class GetObjectsService {
 // }
 
 constructor(private http: HttpClient) { }
-dataUrl = 'http://localhost:9999/accession/assets/objects.json';
+dataUrl = 'http://localhost:4200/assets/objects.json';
 
 getObjects() {
   return this.http.get(this.dataUrl);
