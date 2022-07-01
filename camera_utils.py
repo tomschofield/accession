@@ -209,9 +209,12 @@ def setup_cams():
 
     
     init_camera_focus()
-    front_uvc_cam_index= get_uvc_index_for(front_uvc_cam_index, "back_plate")
+    time.sleep(2)
+    
+    front_uvc_cam_index= get_uvc_index_for(front_cam_index, "back_plate")
     init_camera_focus()
     top_uvc_cam_index = get_uvc_index_for(top_cam_index, "accession")
+    
     print("top_uvc_cam_index",top_uvc_cam_index)
     print("front_uvc_cam_index",front_uvc_cam_index)
     init_camera_focus()
@@ -228,6 +231,42 @@ def setup_cams():
     front_cam.set(4,480)
 
     focus_cams_to_detect()
+
+def show_cam_images(f_frame,):
+    try:
+        front_frame = f_frame
+        # if front_frame:
+        W = 1080.
+        height, width, depth = front_frame.shape
+        imgScale = W/width
+        newX,newY = front_frame.shape[1]*imgScale, front_frame.shape[0]*imgScale
+        small_front_frame = cv2.resize(front_frame,(int(newX),int(newY)))
+
+        cv2.imshow("front frame", small_front_frame)
+        cv2.moveWindow("front frame", 955, 0) 
+        cv2.namedWindow('front frame',cv2.WINDOW_NORMAL)
+        cv2.resizeWindow('front frame', 960,540)
+
+        # small_top_frame = cv2.resize(top_frame,(int(newX),int(newY)))
+        # cv2.imshow("top frame", small_top_frame)
+        # cv2.moveWindow("top frame", 955, 540) 
+        # cv2.namedWindow('top frame',cv2.WINDOW_NORMAL)
+        # cv2.resizeWindow('top frame', 960,540)
+        keyboard = cv2.waitKey(1)
+        # print("key",keyboard)
+        if keyboard == 'q' or keyboard == 27:
+            print("let's exit")
+            # break
+        elif keyboard == 'd' or keyboard == 100:
+            
+            camera_utils.focus_cams_to_detect()
+            print("focus to detect")
+            
+        elif keyboard == 'o' or keyboard == 111:
+            camera_utils.focus_cams_to_object()
+            print("focus to object")
+    except AttributeError:
+        print("shape not found")
 
 def get_uvc_index_for(cam_index, qr_code):
     tempCap = cv2.VideoCapture(cam_index)
@@ -250,6 +289,7 @@ def get_uvc_index_for(cam_index, qr_code):
         time.sleep(1)
         #is there a QR?
         _, frame = tempCap.read()
+        show_cam_images(frame)
         decodedObjects = pyzbar.decode(frame)
         if len(decodedObjects)>0:
             for obj in decodedObjects:
@@ -265,6 +305,7 @@ def get_uvc_index_for(cam_index, qr_code):
         #is there a QR?
         time.sleep(1)
         _, frame = tempCap.read()
+        show_cam_images(frame)
         decodedObjects = pyzbar.decode(frame)
         if len(decodedObjects)>0:
             for obj in decodedObjects:
@@ -303,15 +344,18 @@ def get_cam_index_for(qr_code):
         print("camera number",x)
         while num_tries <max_tries:
             _, frame = cap.read()
-
-            decodedObjects = pyzbar.decode(frame)
-            if len(decodedObjects)>0:
-                for obj in decodedObjects:
-                    # print("obj.data",x,obj.data.decode("utf-8"))
-                    if obj.data.decode("utf-8")  == qr_code:
-                        print("found front camera on ", x)
-                        return x
-            
+            NoneType = type(None)
+            if(isinstance(frame, NoneType) ==False):
+                print(len(frame))
+                decodedObjects = pyzbar.decode(frame)
+                if len(decodedObjects)>0:
+                    for obj in decodedObjects:
+                        # print("obj.data",x,obj.data.decode("utf-8"))
+                        if obj.data.decode("utf-8")  == qr_code:
+                            print("found front camera on ", x)
+                            return x
+            else:
+                print("camera turned of at index ",x)    
            
             num_tries+=1
         x+=1

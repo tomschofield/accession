@@ -6,6 +6,10 @@ import time
 import cv2
 import numpy as np
 import pyzbar.pyzbar as pyzbar
+from pyzbar.pyzbar import ZBarSymbol
+
+from kraken import binarization
+
 import json
 import os
 from os.path import abspath
@@ -104,6 +108,7 @@ def getArduinoPort():
 #         cv2.resizeWindow('top frame', 960,540)
 
 def show_cam_images(f_frame, top_frame):
+    try:
         front_frame = f_frame
         # if front_frame:
         W = 1080.
@@ -135,6 +140,8 @@ def show_cam_images(f_frame, top_frame):
         elif keyboard == 'o' or keyboard == 111:
             camera_utils.focus_cams_to_object()
             print("focus to object")
+    except AttributeError:
+        print("shape not found")
 
 def accession_object():
     dt = datetime.datetime.now()
@@ -142,31 +149,66 @@ def accession_object():
 
     global top_frame
     global f_frame
-    time.sleep(3)
+    time.sleep(1)
     _, top_frame = camera_utils.top_cam.read()
     _, f_frame = camera_utils.front_cam.read()
     global image_dir
     show_cam_images(f_frame,top_frame)
     # check whether we can see the back cam
+    print("FOCUSING CAMERAS TO CHECK FOR BACK CODE")
     camera_utils.focus_cams_to_detect()
     _, top_frame = camera_utils.top_cam.read()
     _, f_frame = camera_utils.front_cam.read()
     show_cam_images(f_frame,top_frame)
+    
     time.sleep(1)
+    
     _, top_frame = camera_utils.top_cam.read()
     _, f_frame = camera_utils.front_cam.read()
     show_cam_images(f_frame,top_frame)
-    back_code_occluded = camera_utils.object_is_on_plate(f_frame, 25)
-    _, top_frame = camera_utils.top_cam.read()
-    _, f_frame = camera_utils.front_cam.read()
-    show_cam_images(f_frame,top_frame)
-    camera_utils.focus_cams_to_object()
-    _, top_frame = camera_utils.top_cam.read()
-    _, f_frame = camera_utils.front_cam.read()
-    show_cam_images(f_frame,top_frame)
-    print("back_code_occluded",back_code_occluded)
+    
+    # blur = cv2.GaussianBlur(f_frame, (5, 5), 0)
+    # ret, bw_im = cv2.threshold(blur, 0, 255, cv2.THRESH_BINARY+cv2.THRESH_OTSU)
+    # img_gray = cv2.cvtColor(bw_im, cv2.COLOR_BGR2GRAY)
+    # bw_im = binarization.nlbin(f_frame)
+    # (thresh, im_bw) = cv2.threshold(f_frame, 128, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
+    gray = cv2.cvtColor(f_frame, cv2.COLOR_BGR2GRAY)
+    cv2.imwrite("gray.jpg", gray)
+    # ret, bw_im = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY+cv2.THRESH_OTSU)
+    # cv2.imwrite("nw.jpg", bw_im)
+    rgb_img = cv2.cvtColor(gray, cv2.COLOR_GRAY2RGB)
+    cv2.imwrite("rgb_img.jpg", rgb_img)
+    w = 250
+    h = 250
+    x =int((640-w)/2)
+    y=int((480-h)/2)
+    crop_img = rgb_img[y:y+h, x:x+w]
+    cv2.imwrite("crop_img.jpg", crop_img)
+    # print("trying binarised image")
+    show_cam_images(crop_img,top_frame)
+    time.sleep(5)
+    back_code_occluded = True
+    # decodedObjects = pyzbar.decode(crop_img, symbols=[ZBarSymbol.QRCODE])
+   
+    decodedObjects = pyzbar.decode(f_frame, symbols=[ZBarSymbol.QRCODE])
+    if len(decodedObjects)>0:
+        for obj in decodedObjects:
+            # print("obj.data",x,obj.data.decode("utf-8"))
+            if obj.data.decode("utf-8")  == "back_plate":
+                # print("found QR code on ", x)
+                back_code_occluded = False
+    
+    
+    
+    print("BACK CODE OCCLUDED:",back_code_occluded)
+    
+
     if(back_code_occluded==False):
         camera_utils.focus_cams_to_low_object()
+    else:
+        camera_utils.focus_cams_to_object()
+    _, top_frame = camera_utils.top_cam.read()
+    _, f_frame = camera_utils.front_cam.read()
     show_cam_images(f_frame,top_frame)
     #to do
     print(Fore.YELLOW+"ATTEMPTING TO ACCESSION OBJECT")
@@ -219,7 +261,7 @@ def accession_object():
         #close file
         text_file.close()
         relevance_threshold=float(data)
-        relevance_threshold+=0.001
+        relevance_threshold+=0.0001
         f = open("./relevance_threshold.txt", "w")
         f.write(str(relevance_threshold))
         f.close()
@@ -227,7 +269,7 @@ def accession_object():
         if(len(new_object['AI_keys'])>0  ):
             if(object_is_fit>relevance_threshold):
                 sio.emit('new-message',new_object)
-                print(Fore.RED+ "OBJECT IS RELEVANT. ACCEPTED FOR ACCESSION")
+                print(Fore.YELLOW+ "OBJECT IS RELEVANT. ACCEPTED FOR ACCESSION")
                 add_object_to_catalogue(new_object)
             else:
                 print(Fore.RED+ "OBJECT IS NOT RELEVANT. NOT ACCEPTED FOR ACCESSION")
@@ -330,7 +372,9 @@ def run():
             #do this
             if(object_was_on_plate==False):
                 #do nothing probably
-                camera_utils.focus_cams_to_object()
+                # camera_utils.focus_cams_to_object()
+                print(Fore.GREEN+"OBJECT FOUND")
+                time.sleep(3)
                 accession_object()
                 camera_utils.focus_cams_to_detect()
         else:
